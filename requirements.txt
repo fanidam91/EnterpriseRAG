@@ -1,0 +1,13 @@
+streamlit>=1.35.0
+pandas>=2.0.0
+openai>=1.30.0
+mlflow>=2.13.0
+databricks-sdk>=0.28.0
+databricks-vectorsearch>=0.3.0
+pypdf>=4.2.0
+python-docx>=1.1.2
+openpyxl>=3.1.2
+python-pptx>=0.6.23
+reportlab>=4.2.0
+plotly>=5.22.0
+sqlite3-binary>=3.38.2.1; sys_platform == 'win32'

@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database simulation files (local testing environment data)
+app/databricks_simulation.db
+data/
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Streamlit
+.streamlit/
+
+# OS specific
+.DS_Store
+Thumbs.db
