@@ -192,10 +192,23 @@ def process_batch(batch_df, batch_id):
         # 1. Update Ingestion Lineage (documents_metadata table)
         doc_id = row['doc_name'].replace(" ", "_").lower()
         
-        # We write meta data info
+        # Determine department and clearance level based on file name
+        doc_name_lower = row['doc_name'].lower()
+        dept = "Operations"
+        clearance = "Public"
+        if "hr" in doc_name_lower:
+            dept = "HR"
+            clearance = "Confidential"
+        elif "finance" in doc_name_lower:
+            dept = "Finance"
+            clearance = "Confidential"
+        elif "it" in doc_name_lower:
+            dept = "IT"
+            clearance = "Confidential"
+            
         spark.sql(f"""
         INSERT INTO adb_core_data_dev_aue.knowledge_base.documents_metadata 
-        VALUES ('{doc_id}', '{row['doc_name']}', 'Operations', 'Public', {row['file_size']}, 'system_loader', current_timestamp(), '{row['file_path']}')
+        VALUES ('{doc_id}', '{row['doc_name']}', '{dept}', '{clearance}', {row['file_size']}, 'system_loader', current_timestamp(), '{row['file_path']}')
         """)
         
         # 2. Extract, chunk, and embed content
@@ -207,8 +220,8 @@ def process_batch(batch_df, batch_id):
         
         # Create chunk dataframe to parallelize embedding calculations
         spark_chunks = spark.createDataFrame(
-            [(f"{doc_id}_{idx}", doc_id, c[0], c[1], idx) for idx, c in enumerate(chunks)],
-            schema=["chunk_id", "doc_id", "section", "content", "sequence_num"]
+            [(f"{doc_id}_{idx}", doc_id, row['doc_name'], c[0], c[1], idx, dept, clearance) for idx, c in enumerate(chunks)],
+            schema=["chunk_id", "doc_id", "doc_name", "section", "content", "sequence_num", "department", "clearance_level"]
         )
         
         # Compute embeddings using UDF

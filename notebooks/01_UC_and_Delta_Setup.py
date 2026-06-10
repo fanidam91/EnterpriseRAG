@@ -67,10 +67,13 @@ spark.sql("""
 CREATE TABLE IF NOT EXISTS document_chunks (
   chunk_id STRING NOT NULL,
   doc_id STRING NOT NULL,
+  doc_name STRING NOT NULL,
   section STRING NOT NULL,
   content STRING NOT NULL,
   embedding ARRAY<FLOAT> NOT NULL,
-  sequence_num INT NOT NULL
+  sequence_num INT NOT NULL,
+  department STRING NOT NULL,
+  clearance_level STRING NOT NULL
 )
 USING DELTA
 TBLPROPERTIES (
