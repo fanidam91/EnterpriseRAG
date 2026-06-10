@@ -32,8 +32,8 @@ from typing import Iterator
 
 # COMMAND ----------
 
-volume_path = "dbfs:/Volumes/main/knowledge_base/raw_docs/"
-checkpoint_path = "dbfs:/Volumes/main/knowledge_base/_checkpoints/raw_docs_ingest"
+volume_path = "dbfs:/Volumes/adb_core_data_dev_aue/knowledge_base/raw_docs/"
+checkpoint_path = "dbfs:/Volumes/adb_core_data_dev_aue/knowledge_base/_checkpoints/raw_docs_ingest"
 
 # COMMAND ----------
 
@@ -136,7 +136,7 @@ def compute_embedding_udf(text):
     
     # Check for keys in Environment or Databricks Secrets
     api_key = dbutils.secrets.get("azure-openai", "api-key")
-    api_endpoint = "https://your-resource.openai.azure.com/"
+    api_endpoint = "https://foundry-core-data-dev-us.openai.azure.com/"
     
     client = openai.AzureOpenAI(
         api_key=api_key,
@@ -194,7 +194,7 @@ def process_batch(batch_df, batch_id):
         
         # We write meta data info
         spark.sql(f"""
-        INSERT INTO main.knowledge_base.documents_metadata 
+        INSERT INTO adb_core_data_dev_aue.knowledge_base.documents_metadata 
         VALUES ('{doc_id}', '{row['doc_name']}', 'Operations', 'Public', {row['file_size']}, 'system_loader', current_timestamp(), '{row['file_path']}')
         """)
         
@@ -215,7 +215,7 @@ def process_batch(batch_df, batch_id):
         spark_embedded = spark_chunks.withColumn("embedding", compute_embedding_udf(col("content")))
         
         # Append to target Silver table
-        spark_embedded.write.format("delta").mode("append").saveAsTable("main.knowledge_base.document_chunks")
+        spark_embedded.write.format("delta").mode("append").saveAsTable("adb_core_data_dev_aue.knowledge_base.document_chunks")
         
     print(f"Batch {batch_id} processed successfully.")
 

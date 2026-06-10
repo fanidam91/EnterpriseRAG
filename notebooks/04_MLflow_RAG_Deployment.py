@@ -35,16 +35,16 @@ class EnterpriseRAGModel(mlflow.pyfunc.PythonModel):
         # Initialize clients
         self.vsc = VectorSearchClient()
         self.endpoint_name = "vs_knowledge_endpoint"
-        self.index_name = "main.knowledge_base.document_chunks_index"
+        self.index_name = "adb_core_data_dev_aue.knowledge_base.document_chunks_index"
         self.index = self.vsc.get_index(endpoint_name=self.endpoint_name, index_name=self.index_name)
         
         # Initialize LLM credentials
         self.client = AzureOpenAI(
             api_key=dbutils.secrets.get("azure-openai", "api-key"),
             api_version="2024-02-15-preview",
-            azure_endpoint="https://your-resource.openai.azure.com/"
+            azure_endpoint="https://foundry-core-data-dev-us.openai.azure.com/"
         )
-        self.llm_deployment = "gpt-4o"
+        self.llm_deployment = "gpt-4"
         self.embeddings_deployment = "text-embedding-3-small"
 
     def predict(self, context, model_input):
@@ -128,7 +128,7 @@ with mlflow.start_run(run_name="deploy_rag_chain") as run:
     
     # Save parameters
     mlflow.log_param("retrieval_endpoint", "vs_knowledge_endpoint")
-    mlflow.log_param("retrieval_index", "main.knowledge_base.document_chunks_index")
+    mlflow.log_param("retrieval_index", "adb_core_data_dev_aue.knowledge_base.document_chunks_index")
     mlflow.log_param("openai_llm", "gpt-4o")
     
     # Log model artifacts
@@ -136,7 +136,7 @@ with mlflow.start_run(run_name="deploy_rag_chain") as run:
         artifact_path="rag_chain",
         python_model=EnterpriseRAGModel(),
         conda_env=conda_env,
-        registered_model_name="main.knowledge_base.rag_assistant_model"
+        registered_model_name="adb_core_data_dev_aue.knowledge_base.rag_assistant_model"
     )
     print("Model registered in Unity Catalog Registry successfully.")
 
@@ -154,7 +154,7 @@ from databricks.sdk.service.serving import EndpointCoreConfigInput, ServedModelI
 w = WorkspaceClient()
 
 endpoint_name = "rag-serving-endpoint"
-registered_model = "main.knowledge_base.rag_assistant_model"
+registered_model = "adb_core_data_dev_aue.knowledge_base.rag_assistant_model"
 model_version = "1" # Deploy version 1
 
 # Define model instance config

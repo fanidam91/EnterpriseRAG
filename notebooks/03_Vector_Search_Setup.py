@@ -51,8 +51,8 @@ else:
 
 # COMMAND ----------
 
-source_table = "main.knowledge_base.document_chunks"
-index_name = "main.knowledge_base.document_chunks_index"
+source_table = "adb_core_data_dev_aue.knowledge_base.document_chunks"
+index_name = "adb_core_data_dev_aue.knowledge_base.document_chunks_index"
 
 # Create a Delta Sync index mapping embedding columns
 try:

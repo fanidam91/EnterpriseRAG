@@ -22,10 +22,10 @@
 # COMMAND ----------
 
 # Create Catalog if not exists
-spark.sql("CREATE CATALOG IF NOT EXISTS main")
+spark.sql("CREATE CATALOG IF NOT EXISTS adb_core_data_dev_aue")
 
 # Use catalog
-spark.sql("USE CATALOG main")
+spark.sql("USE CATALOG adb_core_data_dev_aue")
 
 # Create Database Schema
 spark.sql("CREATE SCHEMA IF NOT EXISTS knowledge_base")
@@ -101,7 +101,7 @@ TBLPROPERTIES (
 );
 """)
 
-print("Delta tables initialized successfully in catalog main.knowledge_base.")
+print("Delta tables initialized successfully in catalog adb_core_data_dev_aue.knowledge_base.")
 
 # COMMAND ----------
 
