@@ -112,6 +112,9 @@ print("Delta tables initialized successfully in catalog adb_core_data_dev_aue.kn
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG adb_core_data_dev_aue;
+# MAGIC USE SCHEMA knowledge_base;
+# MAGIC 
 # MAGIC -- Create Row Filter Function mapping user session properties to document attributes
 # MAGIC CREATE OR REPLACE FUNCTION abac_department_filter(doc_dept STRING, doc_clearance STRING)
 # MAGIC RETURN 
