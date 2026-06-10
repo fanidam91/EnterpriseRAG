@@ -129,13 +129,16 @@ def extract_and_chunk(file_bytes, file_name):
 
 # COMMAND ----------
 
+# Retrieve secret key on the driver node
+api_key_driver = dbutils.secrets.get("azure-openai", "api-key")
+
 @udf(returnType=ArrayType(FloatType()))
 def compute_embedding_udf(text):
     import openai
     import os
     
-    # Check for keys in Environment or Databricks Secrets
-    api_key = dbutils.secrets.get("azure-openai", "api-key")
+    # Reference the key fetched on the driver (cloudpickle serializes the string constant)
+    api_key = api_key_driver
     api_endpoint = "https://foundry-core-data-dev-us.openai.azure.com/"
     
     client = openai.AzureOpenAI(
