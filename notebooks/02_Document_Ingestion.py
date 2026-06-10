@@ -215,8 +215,9 @@ def process_batch(batch_df, batch_id):
         """)
         
         # 2. Extract, chunk, and embed content
-        # Load raw file data (read from DBFS Volume)
-        with open(row['file_path'].replace("dbfs:", "/dbfs"), "rb") as f:
+        # Load raw file data (read from POSIX Volume path)
+        local_path = row['file_path'].replace("dbfs:/", "/")
+        with open(local_path, "rb") as f:
             file_bytes = f.read()
             
         chunks = extract_and_chunk(file_bytes, row['doc_name'])
