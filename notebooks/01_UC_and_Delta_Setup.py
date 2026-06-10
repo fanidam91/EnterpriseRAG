@@ -34,6 +34,9 @@ spark.sql("USE SCHEMA knowledge_base")
 # Create Staging Volume for raw files
 spark.sql("CREATE VOLUME IF NOT EXISTS raw_docs")
 
+# Create Volume for streaming checkpoints
+spark.sql("CREATE VOLUME IF NOT EXISTS checkpoints")
+
 print("Unity Catalog Namespace and Staging Volumes successfully initialized.")
 
 # COMMAND ----------

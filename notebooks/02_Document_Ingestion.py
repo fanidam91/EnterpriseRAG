@@ -33,7 +33,7 @@ from typing import Iterator
 # COMMAND ----------
 
 volume_path = "dbfs:/Volumes/adb_core_data_dev_aue/knowledge_base/raw_docs/"
-checkpoint_path = "dbfs:/Volumes/adb_core_data_dev_aue/knowledge_base/_checkpoints/raw_docs_ingest"
+checkpoint_path = "dbfs:/Volumes/adb_core_data_dev_aue/knowledge_base/checkpoints/raw_docs_ingest"
 
 # COMMAND ----------
 
